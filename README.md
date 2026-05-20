@@ -52,6 +52,13 @@ The following Python packages are required:
 - requests==2.31.0 - HTTP library for web scraping
 - beautifulsoup4==4.12.2 - HTML parsing library
 - textblob==0.17.1 - Natural language processing library for sentiment analysis
+- playwright - Optional browser automation fallback to expand JS-rendered reviews
+
+If you plan to enable the browser fallback install Playwright and the browser binaries after installing packages:
+
+```
+playwright install
+```
 
 ## Running the Application
 

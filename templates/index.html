@@ -117,7 +117,11 @@
                 return;
             }
 
-            let html = `<p><strong>Average Polarity:</strong> ${data.average_polarity.toFixed(2)}</p>`;
+            let html = '';
+            if (data.warning) {
+                html += `<p style="color: orange;"><strong>Warning:</strong> ${data.warning}</p>`;
+            }
+            html += `<p><strong>Average Polarity:</strong> ${data.average_polarity.toFixed(2)}</p>`;
             html += `<p><strong>Average Subjectivity:</strong> ${data.average_subjectivity.toFixed(2)}</p>`;
             html += '<h3>Reviews:</h3>';
 
