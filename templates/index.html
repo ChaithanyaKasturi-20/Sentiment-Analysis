@@ -103,17 +103,31 @@
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = '<p>Analyzing reviews... Please wait.</p>';
 
-            const response = await fetch('http://127.0.0.1:5000/analyze', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ url: productUrl }),
-            });
+            let data;
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: productUrl }),
+                });
 
-            const data = await response.json();
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    const message = (errorData && errorData.error) ? errorData.error : `Server returned ${response.status}`;
+                    resultDiv.innerHTML = `<p style="color: red;"><strong>Error:</strong> ${message}</p>`;
+                    return;
+                }
+
+                data = await response.json();
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;"><strong>Error:</strong> Unable to reach the backend. Make sure the Flask app is running on the same machine.</p>`;
+                return;
+            }
+
             if (data.error) {
-                resultDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                resultDiv.innerHTML = `<p style="color: red;"><strong>Error:</strong> ${data.error}</p>`;
                 return;
             }
 
